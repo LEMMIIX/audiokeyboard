@@ -1,0 +1,1 @@
+g++ .\rt_test.cpp .\lib\rtaudio\RtAudio.cpp -o test -D__WINDOWS_WASAPI__ -lole32 -lmfplat -lmfuuid -lwmcodecdspuuid -lksuser -lwinmm -luuid
