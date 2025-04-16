@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 
     /////////////
 
-    RtAudio adc;
+    //RtAudio adc;
 
 
     /////////////

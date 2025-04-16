@@ -34,7 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
     }
 
 
-
+    setup_combobox();
 }
 
 MainWindow::~MainWindow()
@@ -59,4 +59,19 @@ void MainWindow::keyReleaseEvent(QKeyEvent* event) {
         button->setPalette(this->palette());
     }
     QWidget::keyPressEvent(event);
+}
+
+void MainWindow::setup_combobox() {
+    QStringList available_devices;
+    std::vector<unsigned int> device_ids = adc.getDeviceIds();
+    if(device_ids.size() == 0) {
+        available_devices << "Keine Audiogeräte gefunden";
+    } else {
+        for(unsigned int i : device_ids) {
+            available_devices << QString::fromUtf8((adc.getDeviceInfo(i).name).c_str());	// Gerätenamen die erkannt wurden werden der Liste inzugefügt
+        }
+    }
+
+
+    ui->comboBox->insertItems(device_ids[0], available_devices);
 }
