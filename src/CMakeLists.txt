@@ -23,6 +23,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(src
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        soundwave.h soundwave.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET src APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
@@ -68,3 +69,13 @@ install(TARGETS src
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(src)
 endif()
+
+add_subdirectory(../lib/rtaudio ${CMAKE_CURRENT_BINARY_DIR}/rtaudio)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    rtaudio
+)
+
+target_include_directories(${PROJECT_NAME} PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/../lib/rtaudio
+)

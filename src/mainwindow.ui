@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1258</width>
-    <height>616</height>
+    <width>1355</width>
+    <height>701</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,7 +23,10 @@
       <height>591</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
+    <layout class="QVBoxLayout" name="verticalLayout" stretch="5,1">
+     <property name="spacing">
+      <number>2</number>
+     </property>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
@@ -41,15 +44,6 @@
        </item>
        <item>
         <widget class="QPushButton" name="key_001">
-         <property name="styleSheet">
-          <string notr="true">min-width: 50px;
-max-width: 50px;
-min-height: 50px;
-max-height: 50px;
-border-color: rgb(0, 0, 0);
-border: 2px solid #000000;
-border-radius: 19px;</string>
-         </property>
          <property name="text">
           <string>A</string>
          </property>
@@ -57,15 +51,6 @@ border-radius: 19px;</string>
        </item>
        <item>
         <widget class="QPushButton" name="key_002">
-         <property name="styleSheet">
-          <string notr="true">min-width: 50px;
-max-width: 50px;
-min-height: 50px;
-max-height: 50px;
-border-color: rgb(0, 0, 0);
-border: 2px solid #000000;
-border-radius: 19px;</string>
-         </property>
          <property name="text">
           <string>S</string>
          </property>
@@ -73,15 +58,6 @@ border-radius: 19px;</string>
        </item>
        <item>
         <widget class="QPushButton" name="key_003">
-         <property name="styleSheet">
-          <string notr="true">min-width: 50px;
-max-width: 50px;
-min-height: 50px;
-max-height: 50px;
-border-color: rgb(0, 0, 0);
-border: 2px solid #000000;
-border-radius: 19px;</string>
-         </property>
          <property name="text">
           <string>D</string>
          </property>
@@ -89,15 +65,6 @@ border-radius: 19px;</string>
        </item>
        <item>
         <widget class="QPushButton" name="key_004">
-         <property name="styleSheet">
-          <string notr="true">min-width: 50px;
-max-width: 50px;
-min-height: 50px;
-max-height: 50px;
-border-color: rgb(0, 0, 0);
-border: 2px solid #000000;
-border-radius: 19px;</string>
-         </property>
          <property name="text">
           <string>F</string>
          </property>
@@ -105,15 +72,6 @@ border-radius: 19px;</string>
        </item>
        <item>
         <widget class="QPushButton" name="key_005">
-         <property name="styleSheet">
-          <string notr="true">min-width: 50px;
-max-width: 50px;
-min-height: 50px;
-max-height: 50px;
-border-color: rgb(0, 0, 0);
-border: 2px solid #000000;
-border-radius: 19px;</string>
-         </property>
          <property name="text">
           <string>G</string>
          </property>
@@ -121,15 +79,6 @@ border-radius: 19px;</string>
        </item>
        <item>
         <widget class="QPushButton" name="key_006">
-         <property name="styleSheet">
-          <string notr="true">min-width: 50px;
-max-width: 50px;
-min-height: 50px;
-max-height: 50px;
-border-color: rgb(0, 0, 0);
-border: 2px solid #000000;
-border-radius: 19px;</string>
-         </property>
          <property name="text">
           <string>H</string>
          </property>
@@ -137,15 +86,6 @@ border-radius: 19px;</string>
        </item>
        <item>
         <widget class="QPushButton" name="key_007">
-         <property name="styleSheet">
-          <string notr="true">min-width: 50px;
-max-width: 50px;
-min-height: 50px;
-max-height: 50px;
-border-color: rgb(0, 0, 0);
-border: 2px solid #000000;
-border-radius: 19px;</string>
-         </property>
          <property name="text">
           <string>J</string>
          </property>
@@ -153,15 +93,6 @@ border-radius: 19px;</string>
        </item>
        <item>
         <widget class="QPushButton" name="key_008">
-         <property name="styleSheet">
-          <string notr="true">min-width: 50px;
-max-width: 50px;
-min-height: 50px;
-max-height: 50px;
-border-color: rgb(0, 0, 0);
-border: 2px solid #000000;
-border-radius: 19px;</string>
-         </property>
          <property name="text">
           <string>K</string>
          </property>
@@ -169,15 +100,6 @@ border-radius: 19px;</string>
        </item>
        <item>
         <widget class="QPushButton" name="key_009">
-         <property name="styleSheet">
-          <string notr="true">min-width: 50px;
-max-width: 50px;
-min-height: 50px;
-max-height: 50px;
-border-color: rgb(0, 0, 0);
-border: 2px solid #000000;
-border-radius: 19px;</string>
-         </property>
          <property name="text">
           <string>L</string>
          </property>
@@ -185,15 +107,6 @@ border-radius: 19px;</string>
        </item>
        <item>
         <widget class="QPushButton" name="key_010">
-         <property name="styleSheet">
-          <string notr="true">min-width: 50px;
-max-width: 50px;
-min-height: 50px;
-max-height: 50px;
-border-color: rgb(0, 0, 0);
-border: 2px solid #000000;
-border-radius: 19px;</string>
-         </property>
          <property name="text">
           <string>Ö</string>
          </property>
@@ -201,15 +114,6 @@ border-radius: 19px;</string>
        </item>
        <item>
         <widget class="QPushButton" name="key_011">
-         <property name="styleSheet">
-          <string notr="true">min-width: 50px;
-max-width: 50px;
-min-height: 50px;
-max-height: 50px;
-border-color: rgb(0, 0, 0);
-border: 2px solid #000000;
-border-radius: 19px;</string>
-         </property>
          <property name="text">
           <string>Ä</string>
          </property>
@@ -217,15 +121,6 @@ border-radius: 19px;</string>
        </item>
        <item>
         <widget class="QPushButton" name="key_012">
-         <property name="styleSheet">
-          <string notr="true">min-width: 50px;
-max-width: 50px;
-min-height: 50px;
-max-height: 50px;
-border-color: rgb(0, 0, 0);
-border: 2px solid #000000;
-border-radius: 19px;</string>
-         </property>
          <property name="text">
           <string>#</string>
          </property>
@@ -243,6 +138,47 @@ border-radius: 19px;</string>
           </size>
          </property>
         </spacer>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Orientation::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>30</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Output-Gerät:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboBox">
+         <property name="minimumSize">
+          <size>
+           <width>200</width>
+           <height>0</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton">
+         <property name="text">
+          <string>Bestätigen</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
