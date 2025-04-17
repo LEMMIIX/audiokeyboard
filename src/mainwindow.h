@@ -12,7 +12,6 @@
 #include "../lib/rtaudio/RtAudio.h"
 
 // eigene Dateien imort
-#include "soundwave.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -46,7 +45,13 @@ class MainWindow : public QMainWindow
      * @brief setup_combobox Erstellen und definieren der Combobox, zeigt alle
      * 		zur Verfügung stehenden (output) Geräte an
      */
-    void setup_combobox();
+    void setup_combobox(void);
+
+    /**
+     * @brief set_audiodevice Setzt das Output Gerät anhand der combobox
+     */
+    void set_audiodevice(void);
+
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -61,4 +66,19 @@ private:
      */
     RtAudio adc;
 };
+
+
+/**
+  * @brief keyboard Logik zum händeln der Tastenanschläge
+  * @param outputBuffer
+  * @param InputBuffer
+  * @param nBufferFrames
+  * @param streamTime
+  * @param status
+  * @param userData
+  * @return 0 wenn Funkction erfolgreich läuft
+  */
+int keyboard(void* outputBuffer, void* InputBuffer, unsigned int nBufferFrames,
+    double streamTime, RtAudioStreamStatus status, void* userData);
+
 #endif // MAINWINDOW_H
