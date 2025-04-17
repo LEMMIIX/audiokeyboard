@@ -7,6 +7,7 @@ extern unsigned int sampleRate;
 extern unsigned int bufferFrames;
 extern double phase;
 extern const double FREQUENCY;
+extern double cus_data;
 
 static RtAudio::StreamParameters o_params;
 
