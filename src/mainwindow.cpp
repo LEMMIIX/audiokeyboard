@@ -54,14 +54,26 @@ void MainWindow::keyPressEvent(QKeyEvent* event) {
         pal.setColor(QPalette::Button, QColor(199, 199, 199));
         button->setPalette(pal);
         button->setAutoFillBackground(true);
+        cus_data += 10.0 * get_index_of_key(event->key());
     }
     QWidget::keyPressEvent(event);
+}
+
+int MainWindow::get_index_of_key(int key) {
+    int index = 0;
+
+    for(int i = 0; i <= keys.size() && (key != keys[i]); ++i) {
+        ++index;
+    }
+
+    return index;
 }
 
 void MainWindow::keyReleaseEvent(QKeyEvent* event) {
     if(mapKeyButton.contains(event->key())) {
         QPushButton* button = mapKeyButton[event->key()];
         button->setPalette(this->palette());
+        cus_data -= 10.0 * get_index_of_key(event->key());
     }
     QWidget::keyPressEvent(event);
 }
@@ -95,9 +107,8 @@ void MainWindow::set_audiodevice(void) {
     o_params.firstChannel = 0;
     sampleRate = 44100;
     bufferFrames = 256;
-    double data[2] = {0, 0};
 
-    if(adc.openStream(&o_params, NULL, RTAUDIO_FLOAT64, sampleRate, &bufferFrames, &keyboard, data)) {
+    if(adc.openStream(&o_params, NULL, RTAUDIO_FLOAT64, sampleRate, &bufferFrames, &keyboard, &cus_data)) {
         std::cout << adc.getErrorText() << std::endl;
     }
 

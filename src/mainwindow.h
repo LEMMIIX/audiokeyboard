@@ -65,6 +65,12 @@ private:
      * @brief adc Audio Instanz von RtAudio lib
      */
     RtAudio adc;
+
+    /**
+     * @brief get_index_of_key
+     * @return index des entsprechendes keys der gedrückt wurde
+     */
+    int get_index_of_key(int);
 };
 
 
