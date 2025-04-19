@@ -1,6 +1,7 @@
 #include <cmath>
 
 #include "soundwave.h"
+#include "ToneInfo.h"
 
 unsigned int sampleRate = 44100;
 unsigned int bufferFrames = 256;
@@ -12,25 +13,41 @@ int single_tone(void* o_buff, void* i_buff, unsigned int nBufferFrames,
                 double streamTime, RtAudioStreamStatus status, void* userData) {
 
     double* buffer = (double*) o_buff;
-    double plus_freq = *((double*) userData);
-    if(*((double*) userData) > 0.0) {
-        //std::cout << "single_tone spielt gerade einen hübschen Ton ja ja" << std::endl;
+    std::vector<ToneInfo>* tones = (std::vector<ToneInfo>*) userData;
 
+    // Buffer zunächst leeren
+    for(unsigned int i = 0; i < nBufferFrames * 2; ++i) {
+        buffer[i] = 0.0;
+    }
+
+    // Zählen der aktiven Töne für die Normalisierung
+    int activeCount = 0;
+    for(auto& tone : *tones) {
+        if(tone.active) activeCount++;
+    }
+
+    // Wenn keine Töne aktiv sind, Stille zurückgeben
+    //if(activeCount == 0) return 0;
+
+    // Normalisierungsfaktor berechnen (verhindert Clipping)
+    double normFactor = 0.5 / activeCount;
+
+    // Für jeden aktiven Ton den Beitrag zum Buffer hinzufügen
+    for(auto& tone : *tones) {
+        if(!tone.active) continue;
+
+        double* bufPtr = buffer;
         for(unsigned int i = 0; i < nBufferFrames; ++i) {
-            *buffer++ = 0.5 * sin(phase);
-            *buffer++ = 0.5 * sin(phase);
+            // Beitrag zum linken und rechten Kanal hinzufügen
+            *bufPtr++ += normFactor * sin(tone.phase);
+            *bufPtr++ += normFactor * sin(tone.phase);
 
-            phase += (2.0 * M_PI) * (FREQUENCY + plus_freq) / sampleRate;
-            if(phase >= (2.0 * M_PI)) {
-                phase -= (2.0 * M_PI);
+            // Phase für diesen Ton aktualisieren
+            tone.phase += (2.0 * M_PI) * tone.frequency / sampleRate;
+            if(tone.phase >= (2.0 * M_PI)) {
+                tone.phase -= (2.0 * M_PI);
             }
         }
-    } else {
-        for(unsigned int i = 0; i < nBufferFrames; ++i) {
-            *buffer++ = 0.0;
-            *buffer++ = 0.0;
-        }
-        phase = 0.0;
     }
 
     return 0;

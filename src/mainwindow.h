@@ -12,6 +12,7 @@
 #include "../lib/rtaudio/RtAudio.h"
 
 // eigene Dateien imort
+#include "ToneInfo.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -52,6 +53,7 @@ class MainWindow : public QMainWindow
      */
     void set_audiodevice(void);
 
+
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -71,6 +73,8 @@ private:
      * @return index des entsprechendes keys der gedrückt wurde
      */
     int get_index_of_key(int);
+
+    std::vector<ToneInfo> activeTones;
 };
 
 

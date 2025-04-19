@@ -36,6 +36,12 @@ MainWindow::MainWindow(QWidget *parent)
         ++i;
     }
 
+    activeTones.resize(keys.size());
+    for(int i = 0; i < keys.size(); ++i) {
+        activeTones[i].active = false;
+        activeTones[i].frequency = FREQUENCY + 10.0 * i;
+        activeTones[i].phase = 0.0;
+    }
 
     setup_combobox();
 
@@ -45,18 +51,6 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
-}
-
-void MainWindow::keyPressEvent(QKeyEvent* event) {
-    if(mapKeyButton.contains(event->key())) {
-        QPushButton* button = mapKeyButton[event->key()];
-        QPalette pal = button->palette();
-        pal.setColor(QPalette::Button, QColor(199, 199, 199));
-        button->setPalette(pal);
-        button->setAutoFillBackground(true);
-        cus_data += 10.0 * get_index_of_key(event->key());
-    }
-    QWidget::keyPressEvent(event);
 }
 
 int MainWindow::get_index_of_key(int key) {
@@ -69,11 +63,27 @@ int MainWindow::get_index_of_key(int key) {
     return index;
 }
 
+void MainWindow::keyPressEvent(QKeyEvent* event) {
+    if(mapKeyButton.contains(event->key())) {
+        QPushButton* button = mapKeyButton[event->key()];
+        QPalette pal = button->palette();
+        pal.setColor(QPalette::Button, QColor(199, 199, 199));
+        button->setPalette(pal);
+        button->setAutoFillBackground(true);
+
+        int keyIndex = get_index_of_key(event->key());
+        activeTones[keyIndex].active = true;
+    }
+    QWidget::keyPressEvent(event);
+}
+
 void MainWindow::keyReleaseEvent(QKeyEvent* event) {
     if(mapKeyButton.contains(event->key())) {
         QPushButton* button = mapKeyButton[event->key()];
         button->setPalette(this->palette());
-        cus_data -= 10.0 * get_index_of_key(event->key());
+
+        int keyIndex = get_index_of_key(event->key());
+        activeTones[keyIndex].active = false;
     }
     QWidget::keyPressEvent(event);
 }
@@ -108,7 +118,7 @@ void MainWindow::set_audiodevice(void) {
     sampleRate = 44100;
     bufferFrames = 256;
 
-    if(adc.openStream(&o_params, NULL, RTAUDIO_FLOAT64, sampleRate, &bufferFrames, &keyboard, &cus_data)) {
+    if(adc.openStream(&o_params, NULL, RTAUDIO_FLOAT64, sampleRate, &bufferFrames, &keyboard, &activeTones)) {
         std::cout << adc.getErrorText() << std::endl;
     }
 
