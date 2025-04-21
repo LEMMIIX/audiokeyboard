@@ -5,11 +5,17 @@ Verwandelt die Tastatur in ein Piano (mehr oder weniger).
 ## Showcase
 
 Version 1: (YouTube)<br>
-<a href="https://www.youtube.com/watch?v=1vwA9sYrSrg">
-  <img src="img/youtube_external.png" alt="Klick mich" title="Klick mich" width="100" height="70">
-</a>
+[![youtube][image]][link]
+
+[link]:
+https://www.youtube.com/watch?v=1vwA9sYrSrg
+
+[image]:
+img/yt_logo_6.png
+"Klick Mich!"
+
 
 ## Technologien
 
-RtAudio
-QT
+RtAudio<br>
+QT<br>
