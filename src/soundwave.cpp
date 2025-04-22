@@ -22,7 +22,9 @@ int single_tone(void* o_buff, void* i_buff, unsigned int nBufferFrames,
     // Zählen der aktiven Töne für die Normalisierung
     int activeCount = 0;
     for(auto& tone : *tones) {
-        if(tone.active) activeCount++;
+        if(tone.active) {
+            activeCount++;
+        }
     }
 
     // Normalisierungsfaktor berechnen

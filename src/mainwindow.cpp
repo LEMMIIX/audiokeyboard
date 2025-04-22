@@ -75,7 +75,7 @@ void MainWindow::keyPressEvent(QKeyEvent* event) {
 
         int keyIndex = get_index_of_key(event->key());
         activeTones[keyIndex].active = true;
-        activeTones[keyIndex].attack = 0.0;
+        //activeTones[keyIndex].attack = 0.0;
     }
     QWidget::keyPressEvent(event);
 }
@@ -87,8 +87,9 @@ void MainWindow::keyReleaseEvent(QKeyEvent* event) {
 
         int keyIndex = get_index_of_key(event->key());
         activeTones[keyIndex].active = false;
+        activeTones[keyIndex].attack = 0.0;
     }
-    QWidget::keyPressEvent(event);
+    QWidget::keyReleaseEvent(event);
 }
 
 void MainWindow::setup_combobox(void) {
