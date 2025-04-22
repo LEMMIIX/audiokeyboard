@@ -39,8 +39,9 @@ MainWindow::MainWindow(QWidget *parent)
     activeTones.resize(keys.size());
     for(int i = 0; i < keys.size(); ++i) {
         activeTones[i].active = false;
-        activeTones[i].frequency = FREQUENCY + 10.0 * i;
+        activeTones[i].frequency = FREQUENCY + 44.0 * i;
         activeTones[i].phase = 0.0;
+        activeTones[i].attack = 0.0;
     }
 
     setup_combobox();
@@ -73,6 +74,7 @@ void MainWindow::keyPressEvent(QKeyEvent* event) {
 
         int keyIndex = get_index_of_key(event->key());
         activeTones[keyIndex].active = true;
+        activeTones[keyIndex].attack = 0.0;
     }
     QWidget::keyPressEvent(event);
 }
