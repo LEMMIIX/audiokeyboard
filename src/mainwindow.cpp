@@ -44,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
         activeTones[i].attack = 0.0;
     }
 
+    ui->outputdeviceLabel->setText("Output Gerät:");
     setup_combobox();
 
     connect(ui->comboBox, &QComboBox::currentIndexChanged, this, &MainWindow::set_audiodevice);
@@ -106,27 +107,58 @@ void MainWindow::setup_combobox(void) {
     ui->comboBox->insertItems(0, available_devices);
 }
 
+#include <stdio.h>
+
 void MainWindow::set_audiodevice(void) {
     // vorherige Audiostreams löschen
     if(adc.isStreamRunning()) adc.stopStream();
     if(adc.isStreamOpen()) adc.closeStream();
 
-    std::vector<unsigned int> device_ids = adc.getDeviceIds();
-    o_params.deviceId = device_ids[ui->comboBox->currentIndex()];
-    std::cout << ui->comboBox->currentIndex() << "\t gewählte device Id: " << device_ids[ui->comboBox->currentIndex()]<<  std::endl;
-    std::cout << "o_params ID: " << o_params.deviceId << std::endl;
-    o_params.nChannels = 2;
-    o_params.firstChannel = 0;
-    sampleRate = 44100;
-    bufferFrames = 256;
+    try {
+        std::vector<unsigned int> device_ids = adc.getDeviceIds();
+        unsigned int selected_id = device_ids[ui->comboBox->currentIndex()];
+        RtAudio::DeviceInfo info = adc.getDeviceInfo(selected_id);
+        //printf("output channels: %d\n", info.outputChannels);
+        //fflush(stdout);
+        if(info.outputChannels > 0) {
+            //printf("versuche ID zu setzen...\n");
+            //fflush(stdout);
+            o_params.deviceId = selected_id;
+            std::cout << ui->comboBox->currentIndex() << "\t gewählte device Id: " << selected_id <<  std::endl;
+            std::cout << "o_params ID: " << o_params.deviceId << std::endl;
+            //printf("channels setzen...\n");
+            //fflush(stdout);
+            o_params.nChannels = 2;
+            //printf("firstchannel setzen...\n");
+            //fflush(stdout);
+            o_params.firstChannel = 0;
+            sampleRate = 44100;
+            bufferFrames = 256;
 
-    if(adc.openStream(&o_params, NULL, RTAUDIO_FLOAT64, sampleRate, &bufferFrames, &keyboard, &activeTones)) {
-        std::cout << adc.getErrorText() << std::endl;
+            if(adc.openStream(&o_params, NULL, RTAUDIO_FLOAT64, sampleRate, &bufferFrames, &keyboard, &activeTones)) {
+                //printf("we made an oopsiedaisy OPENING the stream");
+                //fflush(stdout);
+                std::cout << adc.getErrorText() << std::endl;
+                o_params.deviceId = NULL;
+            }
+
+            if(adc.startStream()) {
+                //printf("we made an oopsiedaisy STARTING the stream");
+                //fflush(stdout);
+                std::cout << adc.getErrorText() << std::endl;
+            }
+
+            ui->outputdeviceLabel->setText("Output Gerät:");
+            ui->outputdeviceLabel->setStyleSheet("QLabel { color: black }");
+        } else {
+            std::cout << "Gültiges Ausgabegerät wählen." << std::endl;
+            ui->outputdeviceLabel->setText("Gültiges Ausgabegerät wählen!");
+            ui->outputdeviceLabel->setStyleSheet("QLabel { color: red }");
+        }
+    } catch (RtAudioErrorType e) {
+        std::cout << "\t\t[[ERROR]] : " << e << std::endl;
     }
 
-    if(adc.startStream()) {
-        std::cout << adc.getErrorText() << std::endl;
-    }
 }
 
 
