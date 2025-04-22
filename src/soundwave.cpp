@@ -32,7 +32,12 @@ int single_tone(void* o_buff, void* i_buff, unsigned int nBufferFrames,
 
     // Für jeden aktiven Ton den Beitrag zum Buffer hinzufügen
     for(auto& tone : *tones) {
-        if(!tone.active) continue;
+        if(!tone.active) {
+            tone.attack = 0.0;
+            continue;
+        }
+
+        tone.attack = std::min(tone.attack + 0.04, 1.0);
 
         double* bufPtr = buffer;
         for(unsigned int i = 0; i < nBufferFrames; ++i) {
@@ -44,7 +49,6 @@ int single_tone(void* o_buff, void* i_buff, unsigned int nBufferFrames,
             if(tone.phase >= (2.0 * M_PI)) {
                 tone.phase -= (2.0 * M_PI);
             }
-            tone.attack = std::min(tone.attack + 0.04, 1.0);
         }
     }
 

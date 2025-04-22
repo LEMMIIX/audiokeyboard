@@ -87,7 +87,6 @@ void MainWindow::keyReleaseEvent(QKeyEvent* event) {
 
         int keyIndex = get_index_of_key(event->key());
         activeTones[keyIndex].active = false;
-        activeTones[keyIndex].attack = 0.0;
     }
     QWidget::keyReleaseEvent(event);
 }
