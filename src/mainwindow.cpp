@@ -139,7 +139,7 @@ void MainWindow::set_audiodevice(void) {
                 //printf("we made an oopsiedaisy OPENING the stream");
                 //fflush(stdout);
                 std::cout << adc.getErrorText() << std::endl;
-                o_params.deviceId = NULL;
+                o_params.deviceId = adc.getDefaultOutputDevice();
             }
 
             if(adc.startStream()) {
