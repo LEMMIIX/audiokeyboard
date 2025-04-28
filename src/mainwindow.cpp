@@ -6,6 +6,7 @@
 #include "./ui_mainwindow.h"
 
 #include "soundwave.h"
+#include "toneengine.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -36,13 +37,12 @@ MainWindow::MainWindow(QWidget *parent)
         ++i;
     }
 
-    activeTones.resize(keys.size());
+    toneEngine.initialize(keys.size());
     for(int i = 0; i < keys.size(); ++i) {
-        activeTones[i].active = false;
-        activeTones[i].frequency = FREQUENCY + 44.0 * i;
-        activeTones[i].phase = 0.0;
-        activeTones[i].attack = 0.0;
+        toneEngine.set_tone_freq(i, FREQUENCY + 44.0 * i);
     }
+
+    toneEngine.set_waveform(sine_wave);
 
     ui->outputdeviceLabel->setText("Output Gerät:");
     setup_combobox();
@@ -58,7 +58,7 @@ MainWindow::~MainWindow()
 int MainWindow::get_index_of_key(int key) {
     int index = 0;
 
-    for(int i = 0; i <= keys.size() && (key != keys[i]); ++i) {
+    for(int i = 0; i < keys.size() && (key != keys[i]); ++i) {
         ++index;
     }
 
@@ -66,7 +66,10 @@ int MainWindow::get_index_of_key(int key) {
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* event) {
-    if(mapKeyButton.contains(event->key())) {
+
+    QWidget::keyPressEvent(event);
+    // Nur dann unsere Logik ausführen
+    if(!event->isAutoRepeat() && mapKeyButton.contains(event->key())) {
         QPushButton* button = mapKeyButton[event->key()];
         QPalette pal = button->palette();
         pal.setColor(QPalette::Button, QColor(199, 199, 199));
@@ -74,19 +77,24 @@ void MainWindow::keyPressEvent(QKeyEvent* event) {
         button->setAutoFillBackground(true);
 
         int keyIndex = get_index_of_key(event->key());
-        activeTones[keyIndex].active = true;
-        //activeTones[keyIndex].attack = 0.0;
+        std::cout << "Vor noteOn Aufruf" << std::endl;
+        toneEngine.noteOn(keyIndex);
+        std::cout << "Nach noteOn Aufruf" << std::endl;
     }
-    QWidget::keyPressEvent(event);
 }
 
 void MainWindow::keyReleaseEvent(QKeyEvent* event) {
+    if(event->isAutoRepeat()) {
+        QWidget::keyReleaseEvent(event);
+        return;
+    }
+
     if(mapKeyButton.contains(event->key())) {
         QPushButton* button = mapKeyButton[event->key()];
         button->setPalette(this->palette());
 
         int keyIndex = get_index_of_key(event->key());
-        activeTones[keyIndex].active = false;
+        toneEngine.noteOff(keyIndex);
     }
     QWidget::keyReleaseEvent(event);
 }
@@ -134,8 +142,7 @@ void MainWindow::set_audiodevice(void) {
             o_params.firstChannel = 0;
             sampleRate = 44100;
             bufferFrames = 256;
-
-            if(adc.openStream(&o_params, NULL, RTAUDIO_FLOAT64, sampleRate, &bufferFrames, &keyboard, &activeTones)) {
+            if(adc.openStream(&o_params, NULL, RTAUDIO_FLOAT64, sampleRate, &bufferFrames, &audiocallback, &toneEngine)) {
                 //printf("we made an oopsiedaisy OPENING the stream");
                 //fflush(stdout);
                 std::cout << adc.getErrorText() << std::endl;
@@ -159,10 +166,4 @@ void MainWindow::set_audiodevice(void) {
         std::cout << "\t\t[[ERROR]] : " << e << std::endl;
     }
 
-}
-
-
-int keyboard(void* outputBuffer, void* InputBuffer, unsigned int nBufferFrames,
-             double streamTime, RtAudioStreamStatus status, void* userData) {
-    return single_tone(outputBuffer, InputBuffer, nBufferFrames, streamTime, status, userData);
 }

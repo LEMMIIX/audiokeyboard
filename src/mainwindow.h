@@ -13,6 +13,7 @@
 
 // eigene Dateien imort
 #include "ToneInfo.h"
+#include "toneengine.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -74,7 +75,7 @@ private:
      */
     int get_index_of_key(int);
 
-    std::vector<ToneInfo> activeTones;
+    ToneEngine toneEngine;
 };
 
 
